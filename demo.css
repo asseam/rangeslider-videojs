@@ -19,7 +19,7 @@
 	 background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
 }
 
-#fieldSelection {
+.fieldSelection {
 	text-align: left;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -40,7 +40,7 @@ border-image-outset: initial;
 border-image-repeat: initial;
 min-width: -webkit-min-content;
 }
-#fieldSelection legend{
+.fieldSelection legend{
 	font-weight: bold;
 	font-size: 15px;
 	color: #666666;
