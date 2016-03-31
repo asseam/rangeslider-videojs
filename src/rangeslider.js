@@ -384,15 +384,6 @@
         }
     };
 
-
-    //----------------Create new Components----------------//
-    //@TODO
-    //--Charge the new Component into videojs
-    //    videojs.SeekBar.prototype.options_.children.RSTimeBar = {}; //Range Slider Time Bar
-    //    videojs.ControlBar.prototype.options_.children.ControlTimePanel = {}; //Panel with the time of the range slider
-
-
-
     //-- Design the new components
     (function(){
         var VjsSeekBar = videojs.getComponent('SeekBar');
