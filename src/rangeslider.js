@@ -36,7 +36,7 @@
  */
 //----------------Load Plugin----------------//
 (function () {
-//-- Load RangeSlider plugin in videojs
+    //-- Load RangeSlider plugin in videojs
     function RangeSlider_(options) {
         var player = this;
         player.rangeslider = new RangeSlider(player, options);
@@ -94,7 +94,7 @@
 
 
 
-//-- Plugin
+    //-- Plugin
     function RangeSlider(player, options) {
         var player = player || this;
 
@@ -121,7 +121,7 @@
         this.init();
     }
 
-//-- Methods
+    //-- Methods
     RangeSlider.prototype = {
         /*Constructor*/
         init: function () {
@@ -385,11 +385,11 @@
     };
 
 
-//----------------Create new Components----------------//
-//@TODO
-//--Charge the new Component into videojs
-//    videojs.SeekBar.prototype.options_.children.RSTimeBar = {}; //Range Slider Time Bar
-//    videojs.ControlBar.prototype.options_.children.ControlTimePanel = {}; //Panel with the time of the range slider
+    //----------------Create new Components----------------//
+    //@TODO
+    //--Charge the new Component into videojs
+    //    videojs.SeekBar.prototype.options_.children.RSTimeBar = {}; //Range Slider Time Bar
+    //    videojs.ControlBar.prototype.options_.children.ControlTimePanel = {}; //Panel with the time of the range slider
 
 
 
