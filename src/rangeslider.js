@@ -266,9 +266,6 @@
         },
         _getArrowValue: function (index) {
             var index = index || 0;
-            var duration = this.player.duration();
-
-            duration = typeof duration == 'undefined' ? 0 : duration;
 
             var percentage = this[index === 0 ? "left" : "right"].el_.style.left.replace("%", "");
             if (percentage == "")
@@ -366,7 +363,7 @@
             }
             if (index === 1) {
                 var oldTimeLeft = this.ctpl.el_.children,
-                    durationSelLeft = videojs.TextTrack.prototype.parseCueTime(oldTimeLeft[0].value + ":" + oldTimeLeft[1].value + ":" + oldTimeLeft[2].value);
+                    durationSelLeft = videojs.TextTrack.prototype.parseTimeStamp(oldTimeLeft[0].value + ":" + oldTimeLeft[1].value + ":" + oldTimeLeft[2].value);
                 if (durationSel < durationSelLeft) {
                     obj.style.border = "1px solid red";
                 }
