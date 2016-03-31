@@ -58,7 +58,7 @@
                 plugin.hidePanel(); //Hide the second Panel
 
             if (plugin.options.controlTime == false)
-                plugin.hidecontrolTime(); //Hide the control time panel
+                plugin.hideControlTime(); //Hide the control time panel
 
             plugin._reset();
             player.trigger('loadedRangeSlider'); //Let know if the Range Slider DOM is ready
@@ -167,7 +167,7 @@
             if (typeof this.rstb != 'undefined') {
                 this.rstb.show();
                 if (this.options.controlTime)
-                    this.showcontrolTime();
+                    this.showControlTime();
             }
         },
         hide: function () {
@@ -187,12 +187,12 @@
             if (typeof this.tp != 'undefined')
                 videojs.addClass(this.tp.el_, 'disable');
         },
-        showcontrolTime: function () {
+        showControlTime: function () {
             this.options.controlTime = true;
             if (typeof this.ctp != 'undefined')
                 this.ctp.show();
         },
-        hidecontrolTime: function () {
+        hideControlTime: function () {
             this.options.controlTime = false;
             if (typeof this.ctp != 'undefined')
                 this.ctp.hide();
@@ -351,7 +351,7 @@
             newHour = newHour == "" ? 0 : newHour;
             newMin = newMin == "" ? 0 : newMin;
             newSec = newSec == "" ? 0 : newSec;
-
+            //@TODO videojs.TextTrack.prototype.parseCueTime() -> redefine
             durationSel = videojs.TextTrack.prototype.parseCueTime(newHour + ":" + newMin + ":" + newSec);
             if (durationSel > duration) {
                 obj.value = objOld;
@@ -385,86 +385,16 @@
     };
 
 
-//----------------Public Functions----------------//
-
-//-- Public Functions added to video-js
-//(function() {
-//    //Lock the Slider bar and it will not be possible to change the arrow positions
-//    videojs.Player.prototype.lockSlider = function () {
-//        return this.rangeslider.lock();
-//    };
-//
-////Unlock the Slider bar and it will be possible to change the arrow positions
-//    videojs.Player.prototype.unlockSlider = function () {
-//        return this.rangeslider.unlock();
-//    };
-//
-////Show the Slider Bar Component
-//    videojs.Player.prototype.showSlider = function () {
-//        return this.rangeslider.show();
-//    };
-//
-////Hide the Slider Bar Component
-//    videojs.Player.prototype.hideSlider = function () {
-//        return this.rangeslider.hide();
-//    };
-//
-////Show the Panel with the seconds of the selection
-//    videojs.Player.prototype.showSliderPanel = function () {
-//        return this.rangeslider.showPanel();
-//    };
-//
-////Hide the Panel with the seconds of the selection
-//    videojs.Player.prototype.hideSliderPanel = function () {
-//        return this.rangeslider.hidePanel();
-//    };
-//
-//
-////Show the control Time to edit the position of the arrows
-//    videojs.Player.prototype.showControlTime = function () {
-//        return this.rangeslider.showcontrolTime();
-//    };
-//
-////Hide the control Time to edit the position of the arrows
-//    videojs.Player.prototype.hideControlTime = function () {
-//        return this.rangeslider.hidecontrolTime();
-//    };
-//
-////Set a Value in second for both arrows
-//    videojs.Player.prototype.setValueSlider = function (start, end) {
-//        return this.rangeslider.setValues(start, end);
-//    };
-//
-////The video will be played in a selected section
-//    videojs.Player.prototype.playBetween = function (start, end) {
-//        return this.rangeslider.playBetween(start, end);
-//    };
-//
-////The video will loop between to values
-//    videojs.Player.prototype.loopBetween = function (start, end) {
-//        return this.rangeslider.loop(start, end);
-//    };
-//
-////Set a Value in second for the arrows
-//    videojs.Player.prototype.getValueSlider = function () {
-//        return this.rangeslider.getValues();
-//    };
-//})
-
-
-
-
-    //----------------Create new Components----------------//
-
-    //--Charge the new Component into videojs
-    //    videojs.SeekBar.prototype.options_.children.RSTimeBar = {}; //Range Slider Time Bar
-    //    videojs.ControlBar.prototype.options_.children.ControlTimePanel = {}; //Panel with the time of the range slider
+//----------------Create new Components----------------//
+//@TODO
+//--Charge the new Component into videojs
+//    videojs.SeekBar.prototype.options_.children.RSTimeBar = {}; //Range Slider Time Bar
+//    videojs.ControlBar.prototype.options_.children.ControlTimePanel = {}; //Panel with the time of the range slider
 
 
 
     //-- Design the new components
     (function(){
-        var VjsProgressControl = videojs.getComponent('ProgressControl');
         var VjsSeekBar = videojs.getComponent('SeekBar');
         var VjsComponent = videojs.getComponent('Component');
         /**

@@ -42,46 +42,46 @@
 			var start,end;
 			start = document.getElementById('Start').value;
 			end = document.getElementById('End').value;
-			mplayer.playBetween(start,end);
+			mplayer.rangeslider.playBetween(start,end);
 		}
 		function loopBetween() {
 			var start = document.getElementById('Start').value;
 			var end = document.getElementById('End').value;
-			mplayer.loopBetween(start, end);
+			mplayer.rangeslider.loop(start, end);
 		}
 		function getValues(){
-			var values = mplayer.getValueSlider();
+			var values = mplayer.rangeslider.getValues();
 			console.log(values);
-			document.getElementById('Start').value=videojs.round(values.start,2);
-			document.getElementById('End').value=videojs.round(values.end,2);
+			document.getElementById('Start').value=(values.start,2).toFixed();
+			document.getElementById('End').value=(values.end,2).toFixed();
 		}
 		function showhide(){
 			var plugin=mplayer.rangeslider.options;
 			if(plugin.hidden)
-				mplayer.showSlider();
+				mplayer.rangeslider.show();
 			else
-				mplayer.hideSlider();
+				mplayer.rangeslider.hide();
 		}
 		function lockunlock(){
 			var plugin=mplayer.rangeslider.options;
 			if(plugin.locked)
-				mplayer.unlockSlider();
+				mplayer.rangeslider.unlock();
 			else
-				mplayer.lockSlider();
+				mplayer.rangeslider.lock();
 		}
 		function showhidePanel(){
 			var plugin=mplayer.rangeslider.options;
 			if(!plugin.panel)
-				mplayer.showSliderPanel();
+				mplayer.rangeslider.showPanel();
 			else
-				mplayer.hideSliderPanel();
+				mplayer.rangeslider.hidePanel();
 		}
 		function showhideControlTime(){
 			var plugin=mplayer.rangeslider.options;
 			if(!plugin.controlTime)
-				mplayer.showControlTime();
+				mplayer.rangeslider.showControlTime();
 			else
-				mplayer.hideControlTime();
+				mplayer.rangeslider.hideControlTime();
 		}
 	</script>
     <div class="fieldSelection">
