@@ -7,7 +7,10 @@
 	background: rgba(100,100,100,.5);/*Quitar*/
 }
 
-
+.vjs-default-skin .vjs-timebar-RS .vjs-play-progress,
+.vjs-default-skin .vjs-timebar-RS .vjs-load-progress {
+	display: none;
+}
 
 /*Selection Range Slider Bar Selected*/
 .vjs-default-skin .vjs-rangeslider-holder{height: 100%;}
@@ -15,8 +18,8 @@
 .vjs-default-skin .vjs-selectionbar-RS{
 	height: 100%;
 	float: left;
-	width: 100%;
-	left: 0em;
+	width: 100% !important; /** @TODO remove !important (styling gets set by videojs at the element?) **/
+	left: 0em !important; /** @TODO remove !important (styling gets set by videojs at the element?) **/
 	right: 0em;
 	position:absolute;
 	background-color: #FFE800;

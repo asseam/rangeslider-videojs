@@ -10,7 +10,7 @@
 
 	<!--RangeSlider Pluging-->
 	<script src="src/rangeslider.js"></script>
-	<link href="build/rangeslider.min.css" rel="stylesheet">
+	<link href="src/rangeslider.css" rel="stylesheet">
 
     <!--Demo CSS-->
 	<link href="demo.css" rel="stylesheet">
@@ -32,9 +32,11 @@
 
 	<script>
 		//Example of options ={hidden:false,locked:true,panel:false}
-		var options ={hidden:false},
-			mplayer=videojs("vid1");
+		var options = {hidden:false, controlTime:false};
+		var mplayer = videojs("vid1");
+		mplayer.on('ready', function(){
 			mplayer.rangeslider(options);
+		});
 
 		function playBetween(){
 			var start,end;
@@ -42,14 +44,14 @@
 			end = document.getElementById('End').value;
 			mplayer.playBetween(start,end);
 		}
-        function loopBetween() {
-            var start = document.getElementById('Start').value;
-            var end = document.getElementById('End').value;
-            mplayer.loopBetween(start, end);
-        }
+		function loopBetween() {
+			var start = document.getElementById('Start').value;
+			var end = document.getElementById('End').value;
+			mplayer.loopBetween(start, end);
+		}
 		function getValues(){
 			var values = mplayer.getValueSlider();
-            console.log(values);
+			console.log(values);
 			document.getElementById('Start').value=videojs.round(values.start,2);
 			document.getElementById('End').value=videojs.round(values.end,2);
 		}
