@@ -48,9 +48,11 @@
                 plugin.components[index].init_();
             }
 
-            if (plugin.options.hidden)
+            if (plugin.options.hidden) {
                 plugin.hide(); //Hide the Range Slider
-
+            } else {
+                player.addClass('vjs-rangeslider-visible');
+            }
             if (plugin.options.locked)
                 plugin.lock(); //Lock the Range Slider
 
@@ -141,14 +143,12 @@
             this.box = this.components.SeekRSBar = this.rstb.SeekRSBar;
             this.bar = this.components.SelectionBar = this.box.SelectionBar;
             this.left = this.components.SelectionBarLeft = this.box.SelectionBarLeft;
+            this.leftTime = this.components.SelectionBarLeft.Time = this.left.MouseTimeDisplay;
             this.right = this.components.SelectionBarRight = this.box.SelectionBarRight;
-            this.tp = this.components.TimePanel = this.box.TimePanel;
-            this.tpl = this.components.TimePanelLeft = this.tp.TimePanelLeft;
-            this.tpr = this.components.TimePanelRight = this.tp.TimePanelRight;
+            this.rightTime = this.components.SelectionBarLeft.Time = this.right.MouseTimeDisplay;
             this.ctp = this.components.ControlTimePanel;
             this.ctpl = this.components.ControlTimePanelLeft = this.ctp.ControlTimePanelLeft;
             this.ctpr = this.components.ControlTimePanelRight = this.ctp.ControlTimePanelRight;
-
         },
         lock: function () {
             this.options.locked = true;
@@ -164,6 +164,7 @@
         },
         show: function () {
             this.options.hidden = false;
+            this.player.addClass('vjs-rangeslider-visible');
             if (typeof this.rstb != 'undefined') {
                 this.rstb.show();
                 if (this.options.controlTime)
@@ -172,17 +173,18 @@
         },
         hide: function () {
             this.options.hidden = true;
+            this.player.removeClass('vjs-rangeslider-visible');
             if (typeof this.rstb != 'undefined') {
                 this.rstb.hide();
                 this.ctp.hide();
             }
         },
-        showPanel: function () {
+        showPanel: function () { //@TODO
             this.options.panel = true;
             if (typeof this.tp != 'undefined')
                 videojs.removeClass(this.tp.el_, 'disable');
         },
-        hidePanel: function () {
+        hidePanel: function () { //@TODO
             this.options.panel = false;
             if (typeof this.tp != 'undefined')
                 videojs.addClass(this.tp.el_, 'disable');
@@ -289,8 +291,6 @@
         },
         _reset: function () {
             var duration = this.player.duration();
-            this.tpl.el_.style.left = '0%';
-            this.tpr.el_.style.left = '100%';
             this._setValuesLocked(0, duration);
         },
         _setValuesLocked: function (start, end, writeControlTime) {
@@ -454,8 +454,7 @@
                     'PlayProgressBar': {},
                     'SelectionBar': {},
                     'SelectionBarLeft': {},
-                    'SelectionBarRight': {},
-                    'TimePanel': {},
+                    'SelectionBarRight': {}
                 }
             };
 
@@ -520,10 +519,7 @@
 
                 // Alias
                 var ObjLeft = this.rs.left.el_,
-                    ObjRight = this.rs.right.el_,
                     Obj = this.rs[index === 0 ? 'left' : 'right'].el_,
-                    tpr = this.rs.tpr.el_,
-                    tpl = this.rs.tpl.el_,
                     bar = this.rs.bar,
                     ctp = this.rs[index === 0 ? 'ctpl' : 'ctpr'].el_;
 
@@ -543,39 +539,12 @@
                             ObjLeft.style.zIndex = 10;
                     }
 
-                    //-- Panel
-                    var TimeText = videojs.formatTime(this.rs._seconds(left)),
-                        tplTextLegth = tpl.children[0].innerHTML.length;
-                    var MaxP, MinP, MaxDisP;
-                    if (tplTextLegth <= 4) //0:00
-                        MaxDisP = this.player_.isFullScreen ? 3.25 : 6.5;
-                    else if (tplTextLegth <= 5)//00:00
-                        MaxDisP = this.player_.isFullScreen ? 4 : 8;
-                    else//0:00:00
-                        MaxDisP = this.player_.isFullScreen ? 5 : 10;
-                    if (TimeText.length <= 4) { //0:00
-                        MaxP = this.player_.isFullScreen ? 97 : 93;
-                        MinP = this.player_.isFullScreen ? 0.1 : 0.5;
-                    } else if (TimeText.length <= 5) {//00:00
-                        MaxP = this.player_.isFullScreen ? 96 : 92;
-                        MinP = this.player_.isFullScreen ? 0.1 : 0.5;
-                    } else {//0:00:00
-                        MaxP = this.player_.isFullScreen ? 95 : 91;
-                        MinP = this.player_.isFullScreen ? 0.1 : 0.5;
-                    }
-
-                    if (index === 0) {
-                        tpl.style.left = Math.max(MinP, Math.min(MaxP, (left * 100 - MaxDisP / 2))) + '%';
-
-                        if ((tpr.style.left.replace("%", "") - tpl.style.left.replace("%", "")) <= MaxDisP)
-                            tpl.style.left = Math.max(MinP, Math.min(MaxP, tpr.style.left.replace("%", "") - MaxDisP)) + '%';
-                        tpl.children[0].innerHTML = TimeText;
+                    //-- Seekbar Times
+                    var TimeText = videojs.formatTime(this.rs._seconds(left));
+                    if(index === 0) {
+                        this.rs.leftTime.el_.setAttribute('data-current-time',TimeText);
                     } else {
-                        tpr.style.left = Math.max(MinP, Math.min(MaxP, (left * 100 - MaxDisP / 2))) + '%';
-
-                        if (((tpr.style.left.replace("%", "") || 100) - tpl.style.left.replace("%", "")) <= MaxDisP)
-                            tpr.style.left = Math.max(MinP, Math.min(MaxP, tpl.style.left.replace("%", "") - 0 + MaxDisP)) + '%';
-                        tpr.children[0].innerHTML = TimeText;
+                        this.rs.rightTime.el_.setAttribute('data-current-time',TimeText);
                     }
                     //-- Control Time
                     if (writeControlTime) {
@@ -783,6 +752,12 @@
                 }
             });
 
+            SelectionBarLeft.prototype.options_ = {
+                children: {
+                    'MouseTimeDisplay': {}
+                }
+            };
+
             SelectionBarLeft.prototype.init_ = function () {
                 this.rs = this.player_.rangeslider;
             };
@@ -832,6 +807,12 @@
                 }
             });
 
+            SelectionBarLeft.prototype.options_ = {
+                children: {
+                    'MouseTimeDisplay': {}
+                }
+            };
+
             SelectionBarRight.prototype.init_ = function () {
                 this.rs = this.player_.rangeslider;
             };
@@ -865,92 +846,6 @@
             };
 
             videojs.registerComponent('SelectionBarRight', SelectionBarLeft);
-        })();
-
-        // Time Panel
-        (function(){
-            /**
-             * This is the time panel
-             * @param {videojs.Player|Object} player
-             * @param {Object=} options
-             * @constructor
-             */
-            var TimePanel = videojs.extend(VjsComponent, {
-                /** @constructor */
-                constructor: function (player, options) {
-                    VjsComponent.call(this, player, options);
-                }
-            });
-
-            TimePanel.prototype.init_ = function () {
-                this.rs = this.player_.rangeslider;
-            };
-
-            TimePanel.prototype.options_ = {
-                children: {
-                    'TimePanelLeft': {},
-                    'TimePanelRight': {},
-                }
-            };
-
-            TimePanel.prototype.createEl = function () {
-                return VjsComponent.prototype.createEl.call(this, 'div', {
-                    className: 'vjs-timepanel-RS'
-                });
-            };
-
-            videojs.registerComponent('TimePanel', TimePanel);
-            /**
-             * This is the left time panel
-             * @param {videojs.Player|Object} player
-             * @param {Object=} options
-             * @constructor
-             */
-            var TimePanelLeft = videojs.extend(VjsComponent, {
-                /** @constructor */
-                constructor: function (player, options) {
-                    VjsComponent.call(this, player, options);
-                }
-            });
-
-            TimePanelLeft.prototype.init_ = function () {
-                this.rs = this.player_.rangeslider;
-            };
-
-            TimePanelLeft.prototype.createEl = function () {
-                return VjsComponent.prototype.createEl.call(this, 'div', {
-                    className: 'vjs-timepanel-left-RS',
-                    innerHTML: '<span class="vjs-time-text">00:00</span>'
-                });
-            };
-
-            videojs.registerComponent('TimePanelLeft', TimePanelLeft);
-
-            /**
-             * This is the right time panel
-             * @param {videojs.Player|Object} player
-             * @param {Object=} options
-             * @constructor
-             */
-            var TimePanelRight = videojs.extend(VjsComponent, {
-                /** @constructor */
-                constructor: function (player, options) {
-                    VjsComponent.call(this, player, options);
-                }
-            });
-
-            TimePanelRight.prototype.init_ = function () {
-                this.rs = this.player_.rangeslider;
-            };
-
-            TimePanelRight.prototype.createEl = function () {
-                return VjsComponent.prototype.createEl.call(this, 'div', {
-                    className: 'vjs-timepanel-right-RS',
-                    innerHTML: '<span class="vjs-time-text">00:00</span>'
-                });
-            };
-
-            videojs.registerComponent('TimePanelRight', TimePanelRight);
         })();
 
         // Control Time Panel

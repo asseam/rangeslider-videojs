@@ -17,3 +17,9 @@ player.loopBetween => player.rangeslider.loop();
 ### internal method renaming
 showcontrolTime => showControlTime
 hidecontrolTime => hideControlTime
+
+
+the player has the class "rangeslider-visible" when the rangeslider is visible
+
+
+Removal of the TimePanel -> uses the native MouseTimeDisplay
