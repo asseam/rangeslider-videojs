@@ -348,8 +348,7 @@
             newHour = newHour == "" ? 0 : newHour;
             newMin = newMin == "" ? 0 : newMin;
             newSec = newSec == "" ? 0 : newSec;
-            //@TODO videojs.TextTrack.prototype.parseCueTime() -> redefine
-            durationSel = videojs.TextTrack.prototype.parseCueTime(newHour + ":" + newMin + ":" + newSec);
+            durationSel = this._parseTimeStamp(newHour + ":" + newMin + ":" + newSec);
             if (durationSel > duration) {
                 obj.value = objOld;
                 obj.style.border = "1px solid red";
@@ -363,14 +362,14 @@
             }
             if (index === 1) {
                 var oldTimeLeft = this.ctpl.el_.children,
-                    durationSelLeft = videojs.TextTrack.prototype.parseTimeStamp(oldTimeLeft[0].value + ":" + oldTimeLeft[1].value + ":" + oldTimeLeft[2].value);
+                    durationSelLeft = this._parseTimeStamp(oldTimeLeft[0].value + ":" + oldTimeLeft[1].value + ":" + oldTimeLeft[2].value);
                 if (durationSel < durationSelLeft) {
                     obj.style.border = "1px solid red";
                 }
             } else {
 
                 var oldTimeRight = this.ctpr.el_.children,
-                    durationSelRight = videojs.TextTrack.prototype.parseCueTime(oldTimeRight[0].value + ":" + oldTimeRight[1].value + ":" + oldTimeRight[2].value);
+                    durationSelRight = this._parseTimeStamp(oldTimeRight[0].value + ":" + oldTimeRight[1].value + ":" + oldTimeRight[2].value);
                 if (durationSel > durationSelRight) {
                     obj.style.border = "1px solid red";
                 }
@@ -378,6 +377,13 @@
         },
         _triggerSliderChange: function () {
             this.player.trigger("sliderchange");
+        },
+        _parseTimeStamp: function (input) {
+            var m = input.match(/^(\d+):(\d{0,2})(:\d{0,2})?/);
+            if (!m) {
+                return null;
+            }
+            return (m[1] | 0) * 3600 + (m[2] | 0) * 60 + (m[3].replace(":", "") | 0);
         }
     };
 
