@@ -216,7 +216,7 @@
             this._setValuesLocked(start, end, writeControlTime);
         },
         getValues: function () { //get values in seconds
-            var values = {}, start, end;
+            var start, end;
             start = this.start || this._getArrowValue(0);
             end = this.end || this._getArrowValue(1);
             return {start: start, end: end};
