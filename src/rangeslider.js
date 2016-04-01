@@ -460,7 +460,7 @@
 
         SeekRSBar.prototype.onMouseDown = function (event) {
             event.preventDefault();
-            //videojs.blockTextSelection(); //@TODO
+            blockTextSelection();
 
             if (!this.rs.options.locked) {
                 videojs.on(document, "mousemove", videojs.bind(this, this.onMouseMove));
@@ -789,7 +789,7 @@
 
         SelectionBarLeft.prototype.onMouseDown = function (event) {
             event.preventDefault();
-            //videojs.blockTextSelection(); //@TODO
+            blockTextSelection();
             if (!this.rs.options.locked) {
                 this.pressed = true;
                 videojs.on(document, "mouseup", videojs.bind(this, this.onMouseUp));
@@ -839,7 +839,7 @@
 
         SelectionBarRight.prototype.onMouseDown = function (event) {
             event.preventDefault();
-            //videojs.blockTextSelection(); //@TODO
+            blockTextSelection();
             if (!this.rs.options.locked) {
                 this.pressed = true;
                 videojs.on(document, "mouseup", videojs.bind(this, this.onMouseUp));
@@ -1061,5 +1061,10 @@
         };
 
         videojs.registerComponent('ControlTimePanelRight', ControlTimePanelRight);
+
+        function blockTextSelection() {
+            document.body.focus();
+            document.onselectstart = function () { return false; };
+        }
     })();
 })();
