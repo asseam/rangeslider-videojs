@@ -266,6 +266,18 @@
                 this.player.on("timeupdate", videojs.bind(this, this.bar.process_loop));
             }
         },
+        //https://github.com/rsadwick/videojs-disable-progress
+        _disablePlayerSeekBarHandlers: function() {
+            this.player.controlBar.progressControl.seekBar.off("mousedown");
+            this.player.controlBar.progressControl.seekBar.off("touchstart");
+            this.player.controlBar.progressControl.seekBar.off("click");
+        },
+        //https://github.com/rsadwick/videojs-disable-progress
+        _enablePlayerSeekBarHandlers: function() {
+            this.player.controlBar.progressControl.seekBar.on("mousedown",  this.player.controlBar.progressControl.seekBar.handleMouseDown);
+            this.player.controlBar.progressControl.seekBar.on("touchstart", this.player.controlBar.progressControl.seekBar.handleMouseDown);
+            this.player.controlBar.progressControl.seekBar.on("click", this.player.controlBar.progressControl.seekBar.handleClick);
+        },
         _getArrowValue: function (index) {
             var index = index || 0;
 
@@ -389,7 +401,6 @@
 
     //-- Design the new components
     (function(){
-        var VjsSeekBar = videojs.getComponent('SeekBar');
         var VjsComponent = videojs.getComponent('Component');
 
         // RS Time Bar
@@ -400,10 +411,10 @@
              * @param {Object=} options
              * @constructor
              */
-            var RSTimeBar = videojs.extend(VjsSeekBar, {
+            var RSTimeBar = videojs.extend(VjsComponent, {
                 /** @constructor */
                 constructor: function (player, options) {
-                    VjsSeekBar.call(this, player, options);
+                    VjsComponent.call(this, player, options);
                 }
             });
 
@@ -435,10 +446,10 @@
              * @param {Object=} options
              * @constructor
              */
-            var SeekRSBar = videojs.extend(VjsSeekBar,{
+            var SeekRSBar = videojs.extend(VjsComponent,{
                 /** @constructor */
                 constructor: function (player, options) {
-                    VjsSeekBar.call(this, player, options);
+                    VjsComponent.call(this, player, options);
                     this.on('mousedown', this.onMouseDown);
                     this.on('touchstart', this.onMouseDown);
                 }
@@ -467,9 +478,8 @@
 
             SeekRSBar.prototype.onMouseDown = function (event) {
                 event.preventDefault();
-                blockTextSelection();
-
                 if (!this.rs.options.locked) {
+                    this.rs._disablePlayerSeekBarHandlers();
                     videojs.on(document, "mousemove", videojs.bind(this, this.onMouseMove));
                     videojs.on(document, "mouseup", videojs.bind(this, this.onMouseUp));
                     videojs.on(document, "touchmove", videojs.bind(this, this.onMouseMove));
@@ -482,6 +492,7 @@
                 videojs.off(document, "mouseup", this.onMouseUp, false);
                 videojs.off(document, "touchmove", this.onMouseMove, false);
                 videojs.off(document, "touchend", this.onMouseUp, false);
+                this.rs._enablePlayerSeekBarHandlers();
             };
 
             SeekRSBar.prototype.onMouseMove = function (event) {
@@ -492,7 +503,7 @@
                 else if (this.rs.right.pressed)
                     this.setPosition(1, left);
 
-                this.player_.currentTime(this.rs._seconds(left));
+                //this.player_.currentTime(this.rs._seconds(left)); //@TODO -> on click on the Rangeslider, the slider pointer (left or right) went to that position -> doesnt work anymore
 
                 // Trigger slider change
                 if (this.rs.left.pressed || this.rs.right.pressed) {
@@ -632,10 +643,10 @@
              * @param {Object=} options
              * @constructor
              */
-            var SelectionBar = videojs.extend(VjsSeekBar,{
+            var SelectionBar = videojs.extend(VjsComponent,{
                 /** @constructor */
                 constructor: function (player, options) {
-                    VjsSeekBar.call(this, player, options);
+                    VjsComponent.call(this, player, options);
                     this.on('mouseup', this.onMouseUp);
                     this.on('touchend', this.onMouseUp);
                     this.fired = false;
@@ -748,6 +759,8 @@
                     VjsComponent.call(this, player, options);
                     this.on('mousedown', this.onMouseDown);
                     this.on('touchstart', this.onMouseDown);
+                    this.on('mouseover', this.onMouseOver);
+                    this.on('mouseout', this.onMouseOut);
                     this.pressed = false;
                 }
             });
@@ -771,7 +784,6 @@
 
             SelectionBarLeft.prototype.onMouseDown = function (event) {
                 event.preventDefault();
-                blockTextSelection();
                 if (!this.rs.options.locked) {
                     this.pressed = true;
                     videojs.on(document, "mouseup", videojs.bind(this, this.onMouseUp));
@@ -789,6 +801,14 @@
                 }
             };
 
+            SelectionBarLeft.prototype.onMouseOver = function (event) {
+                this.rs.player.addClass('vjs-selectionbar-left-hovered');
+            };
+
+            SelectionBarLeft.prototype.onMouseOut = function (event) {
+                this.rs.player.removeClass('vjs-selectionbar-left-hovered');
+            };
+
             videojs.registerComponent('SelectionBarLeft', SelectionBarLeft);
 
             /**
@@ -803,11 +823,13 @@
                     VjsComponent.call(this, player, options);
                     this.on('mousedown', this.onMouseDown);
                     this.on('touchstart', this.onMouseDown);
+                    this.on('mouseover', this.onMouseOver);
+                    this.on('mouseout', this.onMouseOut);
                     this.pressed = false;
                 }
             });
 
-            SelectionBarLeft.prototype.options_ = {
+            SelectionBarRight.prototype.options_ = {
                 children: {
                     'MouseTimeDisplay': {}
                 }
@@ -827,7 +849,6 @@
 
             SelectionBarRight.prototype.onMouseDown = function (event) {
                 event.preventDefault();
-                blockTextSelection();
                 if (!this.rs.options.locked) {
                     this.pressed = true;
                     videojs.on(document, "mouseup", videojs.bind(this, this.onMouseUp));
@@ -845,7 +866,15 @@
                 }
             };
 
-            videojs.registerComponent('SelectionBarRight', SelectionBarLeft);
+            SelectionBarRight.prototype.onMouseOver = function (event) {
+                this.rs.player.addClass('vjs-selectionbar-right-hovered');
+            };
+
+            SelectionBarRight.prototype.onMouseOut = function (event) {
+                this.rs.player.removeClass('vjs-selectionbar-right-hovered');
+            };
+
+            videojs.registerComponent('SelectionBarRight', SelectionBarRight);
         })();
 
         // Control Time Panel
@@ -971,10 +1000,5 @@
 
             videojs.registerComponent('ControlTimePanelRight', ControlTimePanelRight);
         })();
-
-        function blockTextSelection() {
-            document.body.focus();
-            document.onselectstart = function () { return false; };
-        }
     })();
 })();

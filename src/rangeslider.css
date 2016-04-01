@@ -10,10 +10,9 @@
 /* Hide native VideoJS-Elements */
 .vjs-default-skin .vjs-timebar-RS .vjs-play-progress,
 .vjs-default-skin .vjs-timebar-RS .vjs-load-progress,
-.vjs-default-skin .vjs-selectionbar-RS .vjs-mouse-display
-/*.vjs-default-skin.vjs-rangeslider-visible .vjs-progress-holder > .vjs-mouse-display*/
-/*.vjs-default-skin.vjs-rangeslider-visible .vjs-play-progress:after*/
-{
+.vjs-default-skin .vjs-selectionbar-RS .vjs-mouse-display,
+.vjs-default-skin.vjs-selectionbar-left-hovered .vjs-progress-holder > .vjs-mouse-display,
+.vjs-default-skin.vjs-selectionbar-right-hovered .vjs-progress-holder > .vjs-mouse-display {
 	display: none !important;
 }
 
