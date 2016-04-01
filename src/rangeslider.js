@@ -602,7 +602,7 @@
                 return this.el_.offsetWidth;
             };
             SeekRSBar.prototype.getRSTBX = function () {
-                return this.findPosition(this.el_).left;//@TODO findPosition was removed, maybe find other way than redeclaring it
+                return this.findPosition(this.el_).left;//@TODO findPosition was removed in videojs, maybe find other way than redeclaring it
             };
             SeekRSBar.prototype.getWidth = function () {
                 return this.rs.left.el_.offsetWidth;//does not matter left or right
