@@ -1,7 +1,7 @@
 /*Range Slider Bar Time*/
 .vjs-default-skin .vjs-timebar-RS{
 	color: red;
-	top: -1em;
+	top: -0.6em;
 	height: 100%;
 	position: relative;
 	background: rgba(100,100,100,.5);/*Quitar*/
@@ -20,8 +20,8 @@
 .vjs-default-skin .vjs-selectionbar-RS{
 	height: 100%;
 	float: left;
-	width: 100% !important; /** @TODO remove !important (styling gets set by videojs at the element?) **/
-	left: 0em !important; /** @TODO remove !important (styling gets set by videojs at the element?) **/
+	width: 100%;
+	left: 0em;
 	right: 0em;
 	position:absolute;
 	background-color: #FFE800;
@@ -87,7 +87,7 @@
 
 .vjs-default-skin div.vjs-selectionbar-line-RS {
 	width: 1px;
-	height: 1em;
+	height: 0.9em;
 	background-color: #FFF273;
 	
 	position:absolute;
