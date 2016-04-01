@@ -54,13 +54,13 @@
                 player.addClass('vjs-rangeslider-visible');
             }
             if (plugin.options.locked)
-                plugin.lock(); //Lock the Range Slider
+                plugin.lock();
 
             if (plugin.options.panel == false)
-                plugin.hidePanel(); //Hide the second Panel
+                plugin.hidePanel();
 
-            if (plugin.options.controlTime == false)
-                plugin.hideControlTime(); //Hide the control time panel
+            if (plugin.options.controlTime == true)
+                plugin.showControlTime();
 
             plugin._reset();
             player.trigger('loadedRangeSlider'); //Let know if the Range Slider DOM is ready
@@ -116,7 +116,7 @@
             options.panel = true; // Show Second Panel
 
         if (!options.hasOwnProperty('controlTime'))
-            options.controlTime = true; // Show Control Time to set the arrows in the edition
+            options.controlTime = false; // Show Control Time to set the arrows in the edition
 
         this.options = options;
 
@@ -906,7 +906,7 @@
 
             ControlTimePanel.prototype.createEl = function () {
                 return VjsComponent.prototype.createEl.call(this, 'div', {
-                    className: 'vjs-controltimepanel-RS vjs-control',
+                    className: 'vjs-controltimepanel-RS vjs-control vjs-hidden',
                 });
             };
 
