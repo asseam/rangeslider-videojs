@@ -390,7 +390,6 @@
     //-- Design the new components
     (function(){
         var VjsSeekBar = videojs.getComponent('SeekBar');
-        var VjsProgressControl = videojs.getComponent('ProgressControl');
         var VjsComponent = videojs.getComponent('Component');
 
         // RS Time Bar
@@ -401,10 +400,10 @@
              * @param {Object=} options
              * @constructor
              */
-            var RSTimeBar = videojs.extend(VjsProgressControl, {
+            var RSTimeBar = videojs.extend(VjsSeekBar, {
                 /** @constructor */
                 constructor: function (player, options) {
-                    VjsProgressControl.call(this, player, options);
+                    VjsSeekBar.call(this, player, options);
                 }
             });
 
