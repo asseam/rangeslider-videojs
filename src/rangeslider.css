@@ -7,9 +7,11 @@
 	background: rgba(100,100,100,.5);/*Quitar*/
 }
 
+/* Hide native VideoJS-Elements */
 .vjs-default-skin .vjs-timebar-RS .vjs-play-progress,
-.vjs-default-skin .vjs-timebar-RS .vjs-load-progress {
-	display: none;
+.vjs-default-skin .vjs-timebar-RS .vjs-load-progress,
+.vjs-default-skin .vjs-selectionbar-RS .vjs-mouse-display {
+	display: none !important;
 }
 
 /*Selection Range Slider Bar Selected*/
