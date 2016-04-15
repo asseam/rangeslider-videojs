@@ -5,6 +5,11 @@
 	height: 100%;
 	position: relative;
 	background: rgba(100,100,100,.5);/*Quitar*/
+	display: none;
+}
+
+.vjs-default-skin.vjs-rangeslider-visible .vjs-timebar-RS {
+	display: block;
 }
 
 /* Hide native VideoJS-Elements */
@@ -78,9 +83,9 @@
 	border-left: 1em solid transparent;
 	border-right: 1em solid transparent;
 	border-top: 1em solid #FFF273;
-	margin-left: -1em;	
+	margin-left: -1em;
 	opacity: 0.8;
-	
+
 	position: absolute;
 	top: -1em;
 }
@@ -96,7 +101,7 @@
 	width: 1px;
 	height: 0.9em;
 	background-color: #FFF273;
-	
+
 	position:absolute;
 	top: 0em;
 }
