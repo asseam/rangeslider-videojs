@@ -1,10 +1,15 @@
 /*Range Slider Bar Time*/
-.vjs-default-skin .vjs-timebar-RS{
+.vjs-default-skin .vjs-timebar-RS {
+	display: none;
 	color: red;
 	top: -0.6em;
 	height: 100%;
 	position: relative;
 	background: rgba(100,100,100,.5);/*Quitar*/
+}
+
+.vjs-default-skin.vjs-rangeslider-visible .vjs-timebar-RS {
+	display: block;
 }
 
 /* Hide native VideoJS-Elements */

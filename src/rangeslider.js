@@ -48,11 +48,10 @@
                 plugin.components[index].init_();
             }
 
-            if (plugin.options.hidden) {
-                plugin.hide(); //Hide the Range Slider
-            } else {
-                player.addClass('vjs-rangeslider-visible');
+            if (!plugin.options.hidden) {
+                plugin.show();
             }
+
             if (plugin.options.locked)
                 plugin.lock();
 
