@@ -22,6 +22,4 @@ hidecontrolTime => hideControlTime
 the player has the class "rangeslider-visible" when the rangeslider is visible
 
 
-Removal of the TimePanel -> uses the native MouseTimeDisplay
-
 ControlTime is hidden initialy
